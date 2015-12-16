@@ -47,6 +47,14 @@ class Slice
     all.clear
   end
 
+  # by yyynishi
+  def self.merge(sname, tname) # Source slice name, Target slice name
+  end
+
+  # by yyynishi
+  def self.split(sname, tnames) # Souce alice name, Target slices names
+  end
+
   attr_reader :name
 
   def initialize(name)
