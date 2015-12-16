@@ -49,10 +49,15 @@ class Slice
 
   # by yyynishi
   def self.merge(sname, tname) # Source slice name, Target slice name
+    find_by!(name: sname)
+    find_by!(name: tname)
+    
   end
 
   # by yyynishi
   def self.split(sname, tnames) # Souce alice name, Target slices names
+    tname = Array.new
+    tname = tnames.split(" ")
   end
 
   attr_reader :name
