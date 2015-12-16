@@ -184,7 +184,10 @@ module SliceApp
       fail '--source slice is mandatory.' unless options[:sslice]
       fail '--target slices is mandatory.' unless options[:tslices]
 
-      tslices = options[:tslices]
+      Trema.trema_process('RoutingSwitch', options[:socket_dir]).
+        controller.
+        slice.
+        split(options[:sslice], options[:tslices])
     end
   end
     
