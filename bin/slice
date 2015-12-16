@@ -149,6 +149,45 @@ module SliceApp
     end
   end
 
+  # by yyynishi
+  desc 'Merge a slice into other slice'
+  command :merge do |c|
+    c.desc 'Source slice'
+    c.flag [:s, :sslice]
+    c.desc 'Target slice'
+    c.flag [:t, :tslice]
+    c.desc 'Location to find socket files'
+    c.flag [:S, :socket_dir], default_value: Trema::DEFAULT_SOCKET_DIR
+
+    c.action do |_global_options, options, _args|
+      fail '--source slice is mandatory.' unless options[:sslice]
+      fail '--target slice is mandatory.' unless options[:tslice]
+
+      Trema.trema_process('RoutingSwitch', options[:socket_dir]).
+        controller.
+        slice.
+        merge(options[:sslice], options[:tslice])
+    end
+  end
+
+  # by yyynishi @todo
+  desc 'Split a slice into new slices'
+  command :split do |c|
+    c.desc 'Source slice'
+    c.flag [:s, :sslice]
+    c.desc 'Target slices'
+    c.flag [:t, :tslices]
+    c.desc 'Location to find socket files'
+    c.flag [:S, :socket_dir], default_value: Trema::DEFAULT_SOCKET_DIR
+ 
+    c.action do |_global_options, options, _args|
+      fail '--source slice is mandatory.' unless options[:sslice]
+      fail '--target slices is mandatory.' unless options[:tslices]
+
+      tslices = options[:tslices]
+    end
+  end
+    
   on_error do |e|
     fail e
   end
