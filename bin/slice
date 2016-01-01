@@ -150,6 +150,7 @@ module SliceApp
   end
 
   # by yyynishi
+  # (command) ./bin/slice merge -s slice1 -t slice2
   desc 'Merge a slice into other slice'
   command :merge do |c|
     c.desc 'Source slice'
@@ -170,7 +171,8 @@ module SliceApp
     end
   end
 
-  # by yyynishi @todo
+  # by yyynishi
+  # (command) ./bin/slice split -s slice1 -t "slice2/11:11:11:11:11:11,22:22:22:22:22:22 slice3/33:33:33:33:33:33"
   desc 'Split a slice into new slices'
   command :split do |c|
     c.desc 'Source slice'
@@ -189,6 +191,7 @@ module SliceApp
         slice.
         split(options[:sslice], options[:tslices])
     end
+
   end
     
   on_error do |e|

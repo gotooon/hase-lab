@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'active_support/core_ext/class/attribute_accessors'
 require 'json'
 require 'path_manager'
@@ -48,19 +49,55 @@ class Slice
   end
 
   # by yyynishi
-  def self.merge(sname, tname) # Source slice name, Target slice name
-    find_by!(name: sname)
-    find_by!(name: tname)
-    
+  # (command) ./bin/slice merge -s slice1 -t slice2
+  def self.merge(source_slice_name, target_slice_name)
+    source_slice = find_by!(name: source_slice_name)
+    target_slice = find_by!(name: target_slice_name)
+ 
+    source_slice.each do |port, mac_addresses|
+      mac_addresses.each do |mac_address|
+        target_slice.add_mac_address(mac_address,
+                                    dpid: port.dpid, port_no: port.port_no)
+      end
+    end
+    destroy(source_slice_name) # delete source slice
   end
 
   # by yyynishi
-  def self.split(sname, tnames) # Souce alice name, Target slices names
-    tname = Array.new
-    tname = tnames.split(" ")
+  # (command) ./bin/slice split -s slice1 -t "slice2/11:11:11:11:11:11,22:22:22:22:22:22 slice3/33:33:33:33:33:33"
+  def self.split(source_slice_name, target_slice_names) 
+    source_slice = find_by!(name: source_slice_name)
+
+    target_slice_a_name = target_slice_names.split(" ")[0].split("/")[0]
+    target_slice_a_macs = target_slice_names.split(" ")[0].split("/")[1].split(",")
+
+    target_slice_b_name = target_slice_names.split(" ")[1].split("/")[0]
+    target_slice_b_macs = target_slice_names.split(" ")[1].split("/")[1].split(",")
+
+    create(target_slice_a_name)
+    create(target_slice_b_name)
+
+    target_slice_a = find_by!(name: target_slice_a_name)
+    target_slice_b = find_by!(name: target_slice_b_name)
+    
+    source_slice.each do |port, mac_addresses|
+      mac_addresses.each do |mac_address|
+        if target_slice_a_macs.include?(mac_address) then
+          target_slice_a.add_mac_address(mac_address,
+                                         dpid: port.dpid, port_no: port.port_no)
+        elsif target_slice_b_macs.include?(mac_address) then
+          target_slice_b.add_mac_address(mac_address,
+                                         dpid: port.dpid, port_no: port.port_no)
+        else
+          fail("error in mac address")
+        end
+      end
+    end
+    destroy(source_slice_name)
   end
 
   attr_reader :name
+  attr_reader :ports
 
   def initialize(name)
     @name = name
