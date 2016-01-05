@@ -103,23 +103,23 @@
 ##動作確認
 `routing_switch.rb` 起動後の初期状態の出力結果は以下である。
 
-![init](https://github.com/handai-trema/slicable_switch-trema-haselab/figure/fig1.png)
+![init](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig1.png)
 
 host1からhost2へ,host2からhost1へそれぞれパケットを送信した後の出力結果は、以下の図となる。
 
-![step1](https://github.com/handai-trema/_switch-trema-haselab/figure/fig2.png)
+![step1](https://github.com/handai-trema/_switch-team-haselab/figure/fig2.png)
 
 2つのスライス(slice1,slice2)を作成し,それぞれにhost1,host2を追加した直後の出力結果は、以下の図となる.
 
-![step2](https://github.com/handai-trema/slicable_switch-trema-haselab/figure/fig3.png)
+![step2](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig3.png)
 
 slice1,slice2を結合した直後の結果は、以下の図となる。
 
-![step3](https://github.com/handai-trema/slicable_switch-trema-haselab/figure/fig4.png)
+![step3](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig4.png)
 
 slice2を分割した直後の結果は、以下の図となる。
 
-![step4](https://github.com/handai-trema/slicable_switch-trema-haselab/figure/fig5.png)
+![step4](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig5.png)
 
 以上より、プログラムは正常に動作している。
 
