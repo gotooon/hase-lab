@@ -8,7 +8,7 @@ module View
     end
 
     # rubocop:disable AbcSize
-    def update(_event, _changed, topology, slices)
+    def update(_event, _changed, topology) #, slices)
       GraphViz.new(:G, use: 'neato', overlap: false, splines: true) do |gviz|
         nodes = topology.switches.each_with_object({}) do |each, tmp|
           tmp[each] = gviz.add_nodes(each.to_hex, shape: 'box')
@@ -19,27 +19,23 @@ module View
         end
 
         # h-goto (make slice graph)
-        slices.each_with_object({}) do |slice, tmp|
-          slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
-          slice.each do |port, mac|
-            mac.each do |mac_address|
-              slice_graph.add_nodes(mac_address.to_s, shape: 'elipse')
-            end
-          end
-        end
+       # slices.each_with_object({}) do |slice, tmp|
+       #   slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
+       #   slice.each do |port, mac|
+       #     mac.each do |mac_address|
+       #       slice_graph.add_nodes(mac_address.to_s, shape: 'elipse')
+       #     end
+       #   end
+       # end
 
         host_nodes = topology.hosts.each_with_object({}) do |each, tmp|
           _mac_address, ip_address, dpid, _port_no = each
-          if host_nodes = gviz.get_nodes(mac_address.to_s)
-            tmp[each] = host_nodes
-          else
+         # if host_nodes = gviz.get_nodes(mac_address.to_s)
+         #   tmp[each] = host_nodes
+         # else
             tmp[each] = gviz.add_nodes(_mac_address.to_s, shape: 'ellipse' )
-          end
+         # end
           gviz.add_edges tmp[each],nodes[dpid], dir: 'none'
-        end
-        
-        slice_nodes = topology.hosts.each_with_object({}) do |each, tmp|
-          
         end
 
         gviz.output png: @output
