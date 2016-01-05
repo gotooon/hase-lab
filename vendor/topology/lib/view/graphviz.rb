@@ -17,6 +17,7 @@ module View
           next unless nodes[each.dpid_a] && nodes[each.dpid_b]
           gviz.add_edges nodes[each.dpid_a], nodes[each.dpid_b]
         end
+
         gviz.output png: @output
       end
     end
