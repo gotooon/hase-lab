@@ -2,8 +2,8 @@
 ##役割分担
 
 * スライス分割、統合コマンドの作成: 西山
-* スライス可視化: 
-* レポート作成: 西山、
+* スライス可視化: 後藤、中西、谷口
+* レポート作成: 西山、後藤
 
 ##スライス操作関連コマンド作成
 ###スライス統合コマンド merge
@@ -126,27 +126,30 @@
 渡辺研のプログラムを参考にさせて頂きました。
 
 ##動作確認
-`routing_switch.rb` 起動後の初期状態の出力結果は以下である。
 
-![init](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig1.png)
+以下に作成した、merge、splitコマンド及び可視化による出力を記載する。
 
-host1からhost2へ、host2からhost1へそれぞれパケットを送信した後の出力結果は、以下の図となる。
+`routing_switch.rb` 起動後の初期状態の出力結果は以下の通りである。
 
-![step1](https://github.com/handai-trema/_switch-team-haselab/figure/fig2.png)
+![init](https://github.com/handai-trema/slicable_switch-team-haselab/figure/shoki.png)
 
-2つのスライス(slice1,slice2)を作成し、それぞれにhost1,host2を追加した直後の出力結果は、以下の図となる。
+host1からhost2へ、host2からhost1へそれぞれパケットを送信すると、host1とhost2が可視化される。
 
-![step2](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig3.png)
+![step1](https://github.com/handai-trema/_switch-team-haselab/figure/1and2.png)
 
-slice1,slice2を結合した直後の結果は、以下の図となる。
+2つのスライス(slice1,slice2)を作成し、それぞれにhost1,host2を追加した。
 
-![step3](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig4.png)
+![step2](https://github.com/handai-trema/slicable_switch-team-haselab/figure/slice.png)
 
-slice2を分割した直後の結果は、以下の図となる。
+slice1,slice2をslice2に作成したmergeコマンドを利用して統合した。
 
-![step4](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig5.png)
+![step3](https://github.com/handai-trema/slicable_switch-team-haselab/figure/slice_merged.png)
 
-以上より、プログラムは正常に動作していることが確認された。
+slice2をsplitコマンドを利用して、slice3とslice4に分割した。
+
+![step4](https://github.com/handai-trema/slicable_switch-team-haselab/figure/slice_split.png)
+
+以上より、プログラムが正常に動作していることを確認した。
 
 
 
