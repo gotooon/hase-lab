@@ -22,6 +22,38 @@ module View
           tmp[each] = gviz.add_nodes(_mac_address.to_s, shape: 'ellipse' )
           gviz.add_edges tmp[each],nodes[dpid], dir: 'none'
         end
+        
+        #slice_color_type = ["black","red","green","yellow","blue","magenta","cyan","white"]
+	#slice_colors = slices.each.with_index.each_with_object({})  do |(slice, i), tmp|
+        #  color = slice_color_type[i % slice_color_type.length]
+        #  if i < slice_color_type.length         
+        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "solid")
+        #  elsif i <  slice_color_type.length * 2  
+        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "double")
+        #  elsif i <  slice_color_type.length * 3  
+        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "dashed")
+        #  elsif i <  slice_color_type.length * 4  
+        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "dotted")         
+        #  else
+        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "solid")   
+        #  end
+        #  slice.ports.each do |port|
+        #    slice.get_ports[port].each do |mac_address|
+        #      tmp[mac_address.to_s] = color
+        #      slice.add_nodes(mac_address.to_s, shape: 'box')
+        #    end
+        #  end          
+        #end
+
+        #slices.each do |slice|
+        #  slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
+        #  slice.each do |port, mac|
+        #    mac.each do |mac_address|
+        #      slice_graph.add_nodes(mac_address.to_s, shape: 'box')
+        #    end
+        #  end
+        #end
+      
 
         topology.paths.each do |path|
 
@@ -59,10 +91,11 @@ module View
           }
         end
 
-
         gviz.output png: @output
       end
+      @topology = topology
     end
+    
     # rubocop:enable AbcSize
 
     def to_s
