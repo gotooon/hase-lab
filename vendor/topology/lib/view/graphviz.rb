@@ -20,59 +20,29 @@ module View
           gviz.add_edges nodes[each.dpid_a], nodes[each.dpid_b], dir:'none'
         end
 
-        unless @slices.empty?
-        @slices.each_with_object({}) do |slice, tmp|
-          slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
-          slice.each do |port, mac|
-            mac.each do |mac_address|
-              slice_graph.add_nodes(mac_address.to_s, shape: 'ellipse')
-            end
-          end
-        end
-        end
-
         host_nodes = topology.hosts.each_with_object({}) do |each, tmp|
           _mac_address, ip_address, dpid, _port_no = each
-          if host_node = gviz.get_nodes(mac_address.to_s)
-            tmp[each] = host_node
-          else
-            tmp[each] = gviz.add_nodes(_mac_address.to_s, shape: 'ellipse' )
-          end
+          tmp[each] = gviz.add_nodes(_mac_address.to_s, shape: 'ellipse' )
           gviz.add_edges tmp[each],nodes[dpid], dir: 'none'
         end
+
+        unless @slices.empty?
+          @slices.each_with_object({}) do |slice, tmp|
+            slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
+            slice.each do |port, mac|
+              mac.each do |mac_address|
+                slice_graph.add_nodes(mac_address.to_s, shape: 'ellipse')
+              end
+            end
+          end
+          
+          
+          
+        end
         
-        #slice_color_type = ["black","red","green","yellow","blue","magenta","cyan","white"]
-	#slice_colors = slices.each.with_index.each_with_object({})  do |(slice, i), tmp|
-        #  color = slice_color_type[i % slice_color_type.length]
-        #  if i < slice_color_type.length         
-        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "solid")
-        #  elsif i <  slice_color_type.length * 2  
-        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "double")
-        #  elsif i <  slice_color_type.length * 3  
-        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "dashed")
-        #  elsif i <  slice_color_type.length * 4  
-        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "dotted")         
-        #  else
-        #    slice = gviz.add_graph("cluster#{i}", color: color , style: "solid")   
-        #  end
-        #  slice.ports.each do |port|
-        #    slice.get_ports[port].each do |mac_address|
-        #      tmp[mac_address.to_s] = color
-        #      slice.add_nodes(mac_address.to_s, shape: 'box')
-        #    end
-        #  end          
-        #end
+        
 
-        #slices.each do |slice|
-        #  slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
-        #  slice.each do |port, mac|
-        #    mac.each do |mac_address|
-        #      slice_graph.add_nodes(mac_address.to_s, shape: 'box')
-        #    end
-        #  end
-        #end
-      
-
+=begin
         topology.paths.each do |path|
 
           path.full_path.each_with_index {|each, index|
@@ -103,12 +73,11 @@ module View
             gviz.add_edges(from, to, color: 'red', dir: 'forward')
           }
         end
-
+=end
         gviz.output png: @output
       end
       @topology = topology
     end
-    
     # rubocop:enable AbcSize
 
     def slice_update(slices)
@@ -121,6 +90,13 @@ module View
           gviz.add_edges nodes[each.dpid_a], nodes[each.dpid_b], dir:'none'
         end
 
+        host_nodes = @topology.hosts.each_with_object({}) do |each, tmp|
+          _mac_address, ip_address, dpid, _port_no = each
+          tmp[each] = gviz.add_nodes(_mac_address.to_s, shape: 'ellipse' )
+          gviz.add_edges tmp[each],nodes[dpid], dir: 'none'
+        end
+
+
         slices.each_with_object({}) do |slice, tmp|
           slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
           slice.each do |port, mac|
@@ -131,6 +107,10 @@ module View
         end
         @slices = slices
 
+
+
+
+=begin
         host_nodes = @topology.hosts.each_with_object({}) do |each, tmp|
           _mac_address, ip_address, dpid, _port_no = each
           if host_node = gviz.get_nodes(mac_address.to_s)
@@ -140,7 +120,7 @@ module View
           end
           gviz.add_edges tmp[each],nodes[dpid], dir: 'none'
         end
-        
+=end        
         gviz.output png: @output
       end
     end
