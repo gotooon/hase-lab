@@ -21,12 +21,15 @@ class Topology
 
   attr_reader :links
   attr_reader :ports
+  attr_reader :hosts
+  attr_reader :paths
 
   def initialize
     @observers = []
     @ports = Hash.new { [].freeze }
     @links = []
     @hosts = []
+    @paths = []
   end
 
   def add_observer(observer)
@@ -72,6 +75,18 @@ class Topology
     @hosts << host
     mac_address, _ip_address, dpid, port_no = *host
     maybe_send_handler :add_host, mac_address, Port.new(dpid, port_no), self
+  end
+
+  def update_path(paths)
+    paths.each do |path|
+      maybe_add_path(path)
+    end
+  end
+
+  def maybe_add_path(path)
+    return if @paths.include?(path)
+    @paths.push(path)
+    maybe_send_handler :add_path, path, self
   end
 
   def route(ip_source_address, ip_destination_address)

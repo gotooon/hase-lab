@@ -60,6 +60,11 @@ class TopologyController < Trema::Controller
     end
   end
 
+  def update_path(paths)
+    @topology.update_path(paths)
+  end
+
+
   private
 
   def send_lldp(dpid, ports)
@@ -72,6 +77,7 @@ class TopologyController < Trema::Controller
       )
     end
   end
+
 
   def lldp_binary_string(dpid, port_number)
     destination_mac = @command_line.destination_mac
