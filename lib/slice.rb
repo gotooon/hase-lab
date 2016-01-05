@@ -19,6 +19,7 @@ class Slice
       fail SliceAlreadyExistsError, "Slice #{name} already exists"
     end
     new(name).tap { |slice| all << slice }
+    maybe_send_slice_handler
   end
 
   def self.find_by(queries)
@@ -42,10 +43,12 @@ class Slice
     find_by!(name: name)
     Path.find { |each| each.slice == name }.each(&:destroy)
     all.delete_if { |each| each.name == name }
+    maybe_send_slice_handler
   end
 
   def self.destroy_all
     all.clear
+    maybe_send_slice_handler
   end
 
   # by yyynishi
@@ -94,6 +97,19 @@ class Slice
       end
     end
     destroy(source_slice_name)
+  end
+
+  def self.maybe_send_slice_handler
+    @@observers.each do |each|
+      if each.respond_to?(:slice_update)
+        each.__send__ :slice_update, all
+      end
+    end
+  end
+
+  @@observers = []
+  def self.add_observer(observer)
+    @@observers << observer
   end
 
   attr_reader :name

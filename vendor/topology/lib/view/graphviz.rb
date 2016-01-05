@@ -25,7 +25,7 @@ module View
           slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
           slice.each do |port, mac|
             mac.each do |mac_address|
-              slice_graph.add_nodes(mac_address.to_s, shape: 'elipse')
+              slice_graph.add_nodes(mac_address.to_s, shape: 'ellipse')
             end
           end
         end
@@ -92,7 +92,7 @@ module View
           slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
           slice.each do |port, mac|
             mac.each do |mac_address|
-              slice_graph.add_nodes(mac_address.to_s, shape: 'elipse')
+              slice_graph.add_nodes(mac_address.to_s, shape: 'ellipse')
             end
           end
         end

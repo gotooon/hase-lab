@@ -76,6 +76,8 @@ module SliceApp
       slice = Trema.trema_process('RoutingSwitch', options[:socket_dir]).
               controller.slice.find_by!(name: options[:slice])
       slice.add_port(dpid: port[:dpid], port_no: port[:port_no])
+      Trema.trema_process('RoutingSwitch', options[:socket_dir]).
+        controller.slice.maybe_send_slice_handler
     end
   end
 
@@ -97,6 +99,8 @@ module SliceApp
         slice.
         find_by!(name: options[:slice]).
         delete_port(dpid: port[:dpid], port_no: port[:port_no])
+      Trema.trema_process('RoutingSwitch', options[:socket_dir]).
+        controller.slice.maybe_send_slice_handler
     end
   end
 
@@ -121,6 +125,8 @@ module SliceApp
         find_by!(name: options[:slice]).
         add_mac_address(options[:mac],
                         dpid: port[:dpid], port_no: port[:port_no])
+      Trema.trema_process('RoutingSwitch', options[:socket_dir]).
+        controller.slice.maybe_send_slice_handler
     end
   end
 
@@ -146,6 +152,8 @@ module SliceApp
         find_by!(name: options[:slice]).
         delete_mac_address(options[:mac],
                            dpid: port[:dpid], port_no: port[:port_no])
+      Trema.trema_process('RoutingSwitch', options[:socket_dir]).
+        controller.slice.maybe_send_slice_handler
     end
   end
 
