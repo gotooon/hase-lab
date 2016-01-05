@@ -59,8 +59,12 @@ class RoutingSwitch < Trema::Controller
   def start_topology
     fail unless @path_manager
     TopologyController.new.tap do |topology|
-      topology.start []
+      mode = 'graphviz'
+      file = '/tmp/topology.png'
+
+      topology.start [mode,file]
       topology.add_observer @path_manager
+
     end
   end
 end

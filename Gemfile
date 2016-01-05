@@ -4,6 +4,7 @@ gem 'activesupport'
 gem 'bundler'
 gem 'grape'
 gem 'trema'
+gem 'ruby-graphviz'
 
 group :development, :test do
   gem 'aruba', require: false
