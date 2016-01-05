@@ -131,23 +131,23 @@
 
 `routing_switch.rb` 起動後の初期状態の出力結果は以下の通りである。
 
-![init](https://github.com/handai-trema/slicable_switch-team-haselab/figure/shoki.png)
+![init](https://github.com/handai-trema/sliceable_switch-team-haselab/blob/master/figure/shoki.png)
 
 host1からhost2へ、host2からhost1へそれぞれパケットを送信すると、host1とhost2が可視化される。
 
-![step1](https://github.com/handai-trema/_switch-team-haselab/figure/1and2.png)
+![step1](https://github.com/handai-trema/sliceable_switch-team-haselab/blob/master/figure/1and2.png)
 
 2つのスライス(slice1,slice2)を作成し、それぞれにhost1,host2を追加した。
 
-![step2](https://github.com/handai-trema/slicable_switch-team-haselab/figure/slice.png)
+![step2](https://github.com/handai-trema/sliceable_switch-team-haselab/blob/master/figure/slice.png)
 
 slice1,slice2をslice2に作成したmergeコマンドを利用して統合した。
 
-![step3](https://github.com/handai-trema/slicable_switch-team-haselab/figure/slice_merged.png)
+![step3](https://github.com/handai-trema/sliceable_switch-team-haselab/blob/master/figure/slice_merged.png)
 
 slice2をsplitコマンドを利用して、slice3とslice4に分割した。
 
-![step4](https://github.com/handai-trema/slicable_switch-team-haselab/figure/slice_split.png)
+![step4](https://github.com/handai-trema/sliceable_switch-team-haselab/blob/master/figure/slice_split.png)
 
 以上より、プログラムが正常に動作していることを確認した。
 
