@@ -47,6 +47,7 @@ class RoutingSwitch < Trema::Controller
   def packet_in(dpid, message)
     @topology.packet_in(dpid, message)
     @path_manager.packet_in(dpid, message) unless message.lldp?
+    @topology.update_path(@path_manager.path)
   end
 
   private
@@ -61,10 +62,12 @@ class RoutingSwitch < Trema::Controller
     TopologyController.new.tap do |topology|
       mode = 'graphviz'
       file = '/tmp/topology.png'
-
-      topology.start [mode,file]
+      @command_line = CommandLine.new(logger)
+      @command_line.parse [mode, file]
+      topology.start @command_line
+      #topology.start [mode,file]
       topology.add_observer @path_manager
-
+      slice.add_observer @command_line.view
     end
   end
 end
