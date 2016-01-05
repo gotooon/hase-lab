@@ -96,20 +96,45 @@
 
 
 ##スライス可視化
+`routing_switch.rb`に graphviz モードを利用するように変更を加えた。
 
+`slice.rb`では、graphviz をオブザーバとして加えて、
+`self.maybe_send_handler`で graphviz にスライス情報を渡している。
+基本的に、`slice.rb`内のスライス操作に応じて`maybe_send_handler`を
+呼び出しているが、 add_port などの操作の場合は`bin/slice`内で呼び出している。
 
+グラフ描画を行う`graphviz.rb`では、トポロジが変更された際の`update`メソッドによる
+描画と、スライスを操作した際の`slice_update`メソッドによる描画が存在する。
+それぞれで、トポロジとスライスの情報をインスタンス変数（@topology,@slices）に
+保存しておくことで、`update`メソッドでトポロジ情報を、
+`slice_update`メソッドでスライス情報を受け取ることができる。  
+スライスの表示は以下のように行っている。
 
+```ruby:graphviz.rb
+	@slices.each_with_object({}) do |slice, tmp|
+          slice_graph = gviz.add_graph("cluster_#{slice.name}", label: slice.name, style: 'dashed')
+          slice.each do |port, mac|
+            mac.each do |mac_address|
+              slice_graph.add_nodes(mac_address.to_s, shape: 'ellipse')
+            end
+          end
+        end
+```
+
+###謝辞
+本課題を行うに当たって、スライス情報の受け渡し部分について、
+渡辺研のプログラムを参考にさせて頂きました。
 
 ##動作確認
 `routing_switch.rb` 起動後の初期状態の出力結果は以下である。
 
 ![init](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig1.png)
 
-host1からhost2へ,host2からhost1へそれぞれパケットを送信した後の出力結果は、以下の図となる。
+host1からhost2へ、host2からhost1へそれぞれパケットを送信した後の出力結果は、以下の図となる。
 
 ![step1](https://github.com/handai-trema/_switch-team-haselab/figure/fig2.png)
 
-2つのスライス(slice1,slice2)を作成し,それぞれにhost1,host2を追加した直後の出力結果は、以下の図となる.
+2つのスライス(slice1,slice2)を作成し、それぞれにhost1,host2を追加した直後の出力結果は、以下の図となる。
 
 ![step2](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig3.png)
 
@@ -121,7 +146,7 @@ slice2を分割した直後の結果は、以下の図となる。
 
 ![step4](https://github.com/handai-trema/slicable_switch-team-haselab/figure/fig5.png)
 
-以上より、プログラムは正常に動作している。
+以上より、プログラムは正常に動作していることが確認された。
 
 
 
