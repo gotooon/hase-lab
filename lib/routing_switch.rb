@@ -47,7 +47,7 @@ class RoutingSwitch < Trema::Controller
   def packet_in(dpid, message)
     @topology.packet_in(dpid, message)
     @path_manager.packet_in(dpid, message) unless message.lldp?
-    @topology.update_path(@path_manager.path)
+    #@topology.update_path(@path_manager.path)
   end
 
   private
