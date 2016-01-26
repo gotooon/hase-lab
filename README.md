@@ -65,6 +65,19 @@ Then add hosts to the slice with the following command:
 ./bin/slice add_host --mac 11:11:11:11:11:11 --port 0x1:1 --slice foo
 ```
 
+MERGE & SPLIT
+--------
+
+to merge two slices
+
+```bash
+./bin/slice merge -s slice1 -t slice2
+```
+
+to split slice
+```bash
+split -s slice1 -t "slice2/11:11:11:11:11:11,22:22:22:22:22:22 slice3/33:33:33:33:33:33"
+```
 
 REST API
 --------
